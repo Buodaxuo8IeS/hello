@@ -9,6 +9,12 @@ BUSYBOX=$(which busybox)
     exit 1
 }
 
+HELLO=$(which hello)
+[ "$HELLO" ] || {
+    echo "Sorry, I could not locate hello."
+    exit 1
+}
+
 set -e
 ROOTFS=/tmp/rootfs-busybox-$$-$RANDOM
 mkdir $ROOTFS
@@ -22,6 +28,7 @@ echo root:x:0: > etc/group
 ln -s lib lib64
 ln -s bin sbin
 cp $BUSYBOX bin
+cp $HELLO bin
 for X in $(busybox --list)
 do
     ln -s busybox bin/$X
@@ -32,8 +39,8 @@ cp /lib/x86_64-linux-gnu/lib{pthread,c,dl,nsl,nss_*}.so.* lib
 cp /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 lib
 for X in console null ptmx random stdin stdout stderr tty urandom zero
 do
-    cp -a /dev/$X dev
+    sudo cp -a /dev/$X dev
 done
 
-tar -cf- . | docker import - busybox
-docker run -i -u root busybox /bin/echo Success.
+tar -cf- . | docker import - hello
+docker run -i -u root hello /bin/echo Success.
