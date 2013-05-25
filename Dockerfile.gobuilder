@@ -6,6 +6,5 @@ RUN apt-get install -y git mercurial gcc flex bison
 RUN /bin/bash -c "cd /usr/local/ && hg clone -u release https://code.google.com/p/go && cd go/src && ./all.bash"
 
 RUN /bin/bash -c "GOPATH=/usr/local/ /usr/local/go/bin/go get github.com/Buodaxuo8IeS/hello"
-EXPOSE :8080
-CMD /usr/local/bin/hello
 ENV GOPATH /usr/local
+ENV PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/go/bin

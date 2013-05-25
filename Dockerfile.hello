@@ -1,0 +1,6 @@
+FROM gobuilder
+MAINTAINER Buodaxuo8IeS MoGh4aaQuaij@yandex.com
+RUN go get github.com/Buodaxuo8IeS/hello
+
+EXPOSE :8080
+CMD /usr/local/bin/hello
